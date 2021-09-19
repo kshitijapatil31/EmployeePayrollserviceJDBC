@@ -44,8 +44,7 @@ public class EmployeePayrollService {
 		Connection con = employee.dataBaseconnection();
 		Statement stmt = con.createStatement();
 		String sql = String.format(
-				"update employeepayroll set basicPay='%.2f'where name='%s';", pay,
-				name);
+				"update employeepayroll set basicPay='%.2f'where name='%s';", pay,name);
 	
 		return stmt.executeUpdate(sql);
 	}
@@ -55,7 +54,7 @@ public class EmployeePayrollService {
 		Connection con = employee.dataBaseconnection();
 		Statement stmt = con.createStatement();
 		String sql = String.format(
-				"update employeepayroll set basicPay='%.2f'where name='%s';", pay,				name);
+				"update employeepayroll set basicPay='%.2f'where name='%s';", pay,name);
 		PreparedStatement preparedStatement=con.prepareStatement(sql);
 		
 		return preparedStatement.executeUpdate(sql);
@@ -85,6 +84,71 @@ public class EmployeePayrollService {
 		}
 
 		return k;
+	}
+
+	public int sumSalary(String sql) throws SQLException {
+		
+	int k=0;
+		Connection con = employee.dataBaseconnection();
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		while (rs.next()) {
+			k++;		
+			String name = rs.getString("name");
+			double basicPay = rs.getDouble("sum(basicPay)");
+			char gender = rs.getString("gender").charAt(0);
+			System.out.println( " " + name + " " + " " + basicPay + " " + gender);
+		}
+			return k;
+		
+	}
+
+	public int maxSalary(String sql) throws SQLException {
+		int k=0;
+		Connection con = employee.dataBaseconnection();
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		while (rs.next()) {
+			k++;		
+			String name = rs.getString("name");
+			double basicPay = rs.getDouble("max(basicPay)");
+			char gender = rs.getString("gender").charAt(0);
+			System.out.println( " " + name + " " + " " + basicPay + " " + gender);
+		}
+			return k;
+		
+	}
+
+	public int minSalary(String sql) throws SQLException {
+		int k=0;
+		Connection con = employee.dataBaseconnection();
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		while (rs.next()) {
+			k++;		
+			String name = rs.getString("name");
+			double basicPay = rs.getDouble("min(basicPay)");
+			char gender = rs.getString("gender").charAt(0);
+			System.out.println( " " + name + " " + " " + basicPay + " " + gender);
+		}
+			return k;
+		
+	}
+
+	public int countSalary(String sql) throws SQLException {
+		int k=0;
+		Connection con = employee.dataBaseconnection();
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		while (rs.next()) {
+			k++;		
+			String name = rs.getString("name");
+			double basicPay = rs.getDouble("count(basicPay)");
+			char gender = rs.getString("gender").charAt(0);
+			System.out.println( " " + name + " " + " " + basicPay + " " + gender);
+		}
+			return k;
+		
 	}
 
 }

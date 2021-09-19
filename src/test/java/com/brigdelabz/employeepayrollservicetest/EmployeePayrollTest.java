@@ -53,4 +53,33 @@ public class EmployeePayrollTest {
 		int size=employeePayroll.employeeData(startDate,endDate);
 		Assert.assertEquals(2, size);
 	}
+	
+	@Test
+	public void givenEmployeeData_shouldReturnSumOFSalary() throws SQLException{
+		EmployeePayrollService employeePayroll=new EmployeePayrollService();
+        String sql="select name,gender,sum(basicPay) from employeepayroll  group by gender";
+		int size=employeePayroll.sumSalary(sql);
+		Assert.assertEquals(2, size);
+	}
+	@Test
+	public void givenEmployeeData_shouldReturnMaxOFSalary() throws SQLException{
+		EmployeePayrollService employeePayroll=new EmployeePayrollService();
+        String sql="select  name,gender,max(basicPay) from employeepayroll  group by gender";
+		int size=employeePayroll.maxSalary(sql);
+		Assert.assertEquals(2, size);
+	}
+	@Test
+	public void givenEmployeeData_shouldReturnMinOFSalary() throws SQLException{
+		EmployeePayrollService employeePayroll=new EmployeePayrollService();
+        String sql="select  name,gender,min(basicPay) from employeepayroll  group by gender";
+		int size=employeePayroll.minSalary(sql);
+		Assert.assertEquals(2, size);
+	}
+	@Test
+	public void givenEmployeeData_shouldReturnCountOFSalary() throws SQLException{
+		EmployeePayrollService employeePayroll=new EmployeePayrollService();
+        String sql="select name,gender, count(basicPay) from employeepayroll  group by gender";
+		int size=employeePayroll.countSalary(sql);
+		Assert.assertEquals(2, size);
+	}
 }
