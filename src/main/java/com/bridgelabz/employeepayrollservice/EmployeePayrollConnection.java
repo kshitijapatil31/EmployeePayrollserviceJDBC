@@ -14,7 +14,7 @@ public class EmployeePayrollConnection {
 
 	public Connection dataBaseconnection(){
 		String driver="com.mysql.jdbc.Driver";
-		String url="jdbc:mysql://localhost:3306/employee_payroll_service?userSSL=false";
+		String url="jdbc:mysql://localhost:3306/employee_payroll_service?useSSL=false";
 		String username="root";
 		String password="edac20";
 

@@ -31,9 +31,16 @@ public class EmployeePayrollTest {
 	@Test
 	public void updateEmployeeSalary_shouldPassTest() throws SQLException  {
 		EmployeePayrollService employeePayroll=new EmployeePayrollService();
-    	  int employee =employeePayroll.updateData("Terissa",3000000.00);
+    	  int employee =employeePayroll.updateData("terisa",3000000.00);
        
        assertEquals(2,employee);
       
+	}
+	@Test
+	public void updateEmployeeSalary_UsingPreparedStatement_ShouldPassTest() throws SQLException {
+		EmployeePayrollService employeePayroll=new EmployeePayrollService();
+		
+		int employee=employeePayroll.updatesalary("terisa",3000000.00);
+		assertEquals(2,employee);
 	}
 }
