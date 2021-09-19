@@ -2,14 +2,14 @@ package com.brigdelabz.employeepayrollservicetest;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import java.util.List;
+import java.sql.SQLException;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.bridgelabz.employeepayrollservice.EmployeePayrollDBService;
 import com.bridgelabz.employeepayrollservice.EmployeePayrollService;
+
+import com.bridgelabz.employeepayrollservice.EmployeePayrollConnection;
 
 public class EmployeePayrollTest {
 
@@ -17,15 +17,23 @@ public class EmployeePayrollTest {
 	
 	@Test
 	public void connectionIsSuccessfull_shouldReturnTrue() {
-		EmployeePayrollService employeePayroll=new EmployeePayrollService();
+		EmployeePayrollConnection employeePayroll=new EmployeePayrollConnection();
 		Assert.assertTrue(employeePayroll.dataBaseconnection()!=null);
 		
 	}
 	@Test
 	public void givenEmployeeData_shouldReturnListOfEmployeeData(){
-		EmployeePayrollDBService employeePayroll=new EmployeePayrollDBService();
+		EmployeePayrollService employeePayroll=new EmployeePayrollService();
         String sql="select * from employeepayroll";
 		int size=employeePayroll.readData(sql);
-		Assert.assertEquals(0, 0);
+		Assert.assertEquals(4, size);
+	}
+	@Test
+	public void updateEmployeeSalary_shouldPassTest() throws SQLException  {
+		EmployeePayrollService employeePayroll=new EmployeePayrollService();
+    	  int employee =employeePayroll.updateData("Terissa",3000000.00);
+       
+       assertEquals(2,employee);
+      
 	}
 }

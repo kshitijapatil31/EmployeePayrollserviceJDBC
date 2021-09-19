@@ -1,55 +1,57 @@
 package com.bridgelabz.employeepayrollservice;
 
-import java.sql.DriverManager;
-import java.sql.Statement ;
-import java.util.Enumeration;
-import java.sql.Driver;
 import java.sql.Connection;
-
-
-
-
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
 public class EmployeePayrollService {
-	Connection con ;
-
-	public Connection dataBaseconnection(){
-		String driver="com.mysql.jdbc.Driver";
-		String url="jdbc:mysql://localhost:3306/employee_payroll_service";
-		String username="root";
-		String password="edac20";
-
-	try {
-		Class.forName(driver);
-		
-	}catch(Exception e) {
-		throw new IllegalStateException("driver not found");
-		
-	}
-	listDrivers();
-
-	try {
-		con=DriverManager.getConnection(url,username,password);
-		Statement stmt=con.createStatement();
-		
-		
-	}catch(Exception e) {
-		System.out.println(e);
-		
-	}
-	return con;
-	}
-
-	private static void listDrivers() {
-	
-		Enumeration<Driver> driverList=DriverManager.getDrivers();
-		while(driverList.hasMoreElements()) {
-			Driver driverClass=(Driver)driverList.nextElement();
-			System.out.println(" "+driverClass.getClass().getName());
+	Statement stmt;
+	Connection con;
+	public int readData(String sql){
+		int k=0;
+		EmployeePayrollConnection employee=new EmployeePayrollConnection();
+		try {
+			
+			con=employee.dataBaseconnection();
+			 stmt=con.createStatement();
+			ResultSet rs=stmt.executeQuery(sql);
+			while(rs.next()) {
+				k++;
+				int id=rs.getInt("Id");
+				String name=rs.getString("name");
+				double basicPay=rs.getDouble("basicPay");
+				LocalDate startDate=rs.getDate("start").toLocalDate();
+				char gender=rs.getString("gender").charAt(0);
+				System.out.println(id+" "+name+" "+" "+basicPay+" "+gender);
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
 		}
 		
+		return k;
 	}
 
+	public int updateData(String name,double pay)throws SQLException  {
+		String sql=null;
+		EmployeePayrollConnection employee=new EmployeePayrollConnection();
+		try {
+			
+			Connection con=employee.dataBaseconnection();
+			stmt=con.createStatement();
+		    sql=String.format("update payroll set basicPay='%.2f'where empId In(select empId from employee where name='%s');", pay,name);
+			ResultSet rs=stmt.executeQuery(sql);
+		
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+	
+		return stmt.executeUpdate(sql);
+	}
 
 	
-
 }
